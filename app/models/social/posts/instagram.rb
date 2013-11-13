@@ -13,6 +13,7 @@ module Social
 			def snippet; self.caption; end
 			
 			after_save do
+				return false unless self.caption
 			  self.caption.scan(/(?:\s|^)(?:#(?!\d+(?:\s|$)))(\w+)(?=\s|$)/i).flatten.each do |t|
 			    self.parent.tag_relationships.create tag: Tag.find_or_create_by_name(t)
 		    end
